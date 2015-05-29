@@ -258,6 +258,17 @@ function definirServicioJob () {
 
 	});
 
+	console.log('Publicando GET - /ambientes');
+	app.get('/ambientes', function (req, res) {
+
+		var listaAmbientes = [];
+		for (var ambiente in ambientes)
+				listaAmbientes.push(ambiente);
+
+		res.json(listaAmbientes)
+			.end();
+	});
+
 }
 
 fs.readdir(__dirname + '/tables', function (err, files) {

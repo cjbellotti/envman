@@ -26,6 +26,7 @@ EnvMan.Views.SistemaImportar = Backbone.View.extend({
 
 	events : {
 
+		"change #ambiente" : "cargarTabla",
 		"click #importar" : "onImportar"
 
 	},
@@ -36,20 +37,35 @@ EnvMan.Views.SistemaImportar = Backbone.View.extend({
 
 	},
 
+	cargarTabla : function (e) {
+
+			var ambiente = this.$el.find('#ambiente').val();
+
+			var lista = window.generales.datos.sistemas(ambiente);
+
+			var arrayData = [];
+			for (var index in lista) {
+				if (_.findIndex(job.registros.sistema, lista[index]) < 0)
+					arrayData.push(lista[index]);
+			}
+
+			this.table.setArrayData(arrayData);
+			
+	},
+
 	render : function () {
 
-		// Solo cargo en la tabla los sistemas que NO se encuentren en el Job.
-		var sistemas = window.collections.sistemas.toJSON();
-
-		var arrayData = [];
-		for (var index in sistemas) {
-			if (_.findIndex(job.registros.sistema, sistemas[index]) < 0)
-				arrayData.push(sistemas[index]);
-		}
-
-		this.table.setArrayData(arrayData);
-
 		this.$el.html(this.template());
+
+		window.generales.cargarComboAmbientes(this.$el.find('#ambiente'));
+
+		this.$el.find('#ambiente').val(window.job.target);
+
+		if(window.job.target != 'DESA')
+			this.$el.find('#ambiente').attr('disabled', 'disabled');
+
+		this.cargarTabla();	
+
 		this.$el.find('.table-sistema-importar').append(this.table);
 
 		var self = this;

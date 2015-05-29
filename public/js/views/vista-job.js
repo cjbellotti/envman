@@ -240,7 +240,7 @@ EnvMan.Views.Job = Backbone.View.extend({
 				if (!sistema)
 					nombre = "Sistema " + content + " inexistente.";
 				else
-					nombre = sistema.get('NOMBRE');
+					nombre = sistema.get('NOMBRE') + ' - ' + sistema.get('PAIS');
 
 			} else if (field == "ID_VALOR_CANONICO") {
 
@@ -313,6 +313,8 @@ EnvMan.Views.Job = Backbone.View.extend({
 
 	guardar : function (e) {
 
+			if (window.job.job == '')
+					delete window.job.job;
 		window.job.fecha = window.job.fecha || new Date();
 		window.job.proyecto = this.$el.find('#proyecto').val();
 		window.job.descripcion = this.$el.find('#descripcion').val();

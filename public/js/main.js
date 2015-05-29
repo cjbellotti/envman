@@ -10,6 +10,7 @@ window.collections.valoresCanonicos = new EnvMan.Collections.ValoresCanonicos();
 window.collections.valoresCanonicos.comparator = "ID";
 window.collections.valoresSistema = new EnvMan.Collections.ValoresSistema();
 window.collections.valoresSistema.comparator = "ID";
+window.ambientes = [];
 
 window.Fases = [
 	"DESA",
@@ -191,6 +192,7 @@ window.generales.crearNuevoJob = function () {
 
 	window.job = {
 
+		job : "",
 		target : "DESA",
 		proyecto : "",
 		descripcion : "",
@@ -333,5 +335,104 @@ window.generales.normalizarNombreTabla = function (nombreTabla) {
 	
 };
 
+// url: Debe empezar y terminar con '/'
+window.generales.obtenerDatos = function (Coleccion, url) {
+
+	var coleccion = new Coleccion();
+
+	coleccion.url = url;
+
+	coleccion.fetch({ async : false });
+	
+	return coleccion.toJSON();
+
+}
+
+window.generales.datos = {};
+
+window.generales.datos.sistemas = function (ambiente) {
+
+		return window.generales.obtenerDatos(EnvMan.Collections.Sistemas, '/sistema/' + ambiente);
+
+}
+
+window.generales.datos.entidades = function (ambiente) {
+
+		return window.generales.obtenerDatos(EnvMan.Collections.Entidades, '/entidad-canonica/' + ambiente);
+
+}
+
+window.generales.datos.valoresCanonicos = function (ambiente) {
+
+		return window.generales.obtenerDatos(EnvMan.Collections.ValoresCanonicos, '/valor-canonico/' + ambiente);
+
+}
+
+window.generales.datos.valoresSistema = function (ambiente) {
+
+		return window.generales.obtenerDatos(EnvMan.Collections.ValoresSistema, '/valor-sistema/' + ambiente);
+
+}
+
+window.generales.cargarComboAmbientes = function (elemento) {
+
+	elemento.html('');
+
+	for (var index in window.ambientes){
+
+			var option = $('<option/>');
+			option.attr('value', window.ambientes[index]);
+			option.html(ambientes[index]);
+			elemento.append(option);
+
+	}
+}
+
+window.generales.cargarComboSistemas = function (elemento, ambiente) {
+
+	elemento.html('');
+
+	var sistemas = window.generales.datos.sistemas(ambiente);
+	for (var index in sistemas){
+
+			var option = $('<option/>');
+			option.attr('value', sistemas[index].ID);
+			option.html(sistemas[index].NOMBRE + ' - ' + sistemas[index].PAIS);
+			elemento.append(option);
+
+	}
+
+}
+
+
+window.generales.cargarComboEntidades = function (elemento, ambiente) {
+
+	elemento.html('');
+
+	var entidades = window.generales.datos.entidades(ambiente);
+	for (var index in entidades){
+
+			var option = $('<option/>');
+			option.attr('value', entidades[index].ID);
+			option.html(entidades[index].NOMBRE);
+			elemento.append(option);
+
+	}
+
+}
+
 $(function() {
+		
+		$.ajax({
+
+				url : '/ambientes',
+				method : 'GET',
+				success : function (data) {
+
+					window.ambientes = data;
+
+				}
+
+		});
+
 })

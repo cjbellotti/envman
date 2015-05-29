@@ -40,7 +40,8 @@ EnvMan.Views.ValorCanonicoImportar = Backbone.View.extend({
 
 	events : {
 
-		"change #id-entidad" : "onChange",
+		"change #ambiente" : "cargarTabla",		
+		"change #id-entidad" : "cargarTabla",
 		"click #importar" : "onImportar"
 
 	},
@@ -51,24 +52,22 @@ EnvMan.Views.ValorCanonicoImportar = Backbone.View.extend({
 
 	},
 
-	onChange : function (e){
+	cargarTabla : function (e) {
 
-		var arrayData = [];
-		var idEntidad = $("#id-entidad").val();
+			var ambiente = this.$el.find('#ambiente').val();
+			var entidad = this.$el.find('#id-entidad').val();
 
-		var valoresCanonicos = window.collections.valoresCanonicos.toJSON();
-		for (var index in valoresCanonicos){
-			if(idEntidad==valoresCanonicos[index].ID_ENTIDAD_CANONICA &&
-				_.findIndex(job.registros.valorescanonicos, valoresCanonicos[index]) < 0){
-				arrayData.push(valoresCanonicos[index]);
+			var lista = window.generales.datos.valoresCanonicos(ambiente);
+
+			var arrayData = [];
+			for (var index in lista) {
+				if (_.findIndex(job.registros.sistema, lista[index]) < 0 &&
+								lista[index].ID_ENTIDAD_CANONICA == entidad)
+					arrayData.push(lista[index]);
 			}
-		}
 
-		this.table.setArrayData(arrayData);
-
- 
-		this.$el.find('.table-valores-canonicos-importar').append(this.table);
-
+			this.table.setArrayData(arrayData);
+			
 	},
 
 	render : function () {
@@ -76,16 +75,19 @@ EnvMan.Views.ValorCanonicoImportar = Backbone.View.extend({
 		// Solo cargo en la tabla los sistemas que NO se encuentren en el Job.
 
 		this.$el.html(this.template());
+
+		window.generales.cargarComboAmbientes(this.$el.find('#ambiente'));
+
+		this.$el.find('#ambiente').val(window.job.target);
+
+		window.generales.cargarComboEntidades(this.$el.find('#id-entidad'), window.job.target);
+
+		if (window.job.target != 'DESA')
+			this.$el.find('#ambiente').attr('disabled', 'disabled');
+
 		this.$el.find('.table-valor-canonico-importar').append(this.table);
-		var entidades = window.collections.entidades.toJSON();
 
-		this.$el.find('#id-entidad').html('')
-
-		var ind=0;
-
-		for (ind in entidades){
-			this.$el.find('#id-entidad').append('<option value="'+entidades[ind].ID+'">'+entidades[ind].NOMBRE+'</option>');
-		}
+		this.cargarTabla();
 
 		var self = this;
 		this.$el.on('hidden.bs.modal', function () {

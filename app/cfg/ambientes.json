@@ -26,15 +26,15 @@
 	],
 	"PROD" : [
 		{
-			"nombre" : "SYNC",
+			"nombre" : "DC_AR",
 			"url" : "hostprodsync"
 		},
 		{	
-			"nombre" : "ASYNC",
+			"nombre" : "DC_VE",
 			"url" : "hostprodasync"
 		},
 		{
-			"nombre" : "COBRO",
+			"nombre" : "DC_CO",
 			"url" : "hostprodcobro"
 		}
 	]

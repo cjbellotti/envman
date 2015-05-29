@@ -152,6 +152,7 @@
 	<script src="js/views/ver-script-v2.js"></script>
 	<script src="js/views/script.js"></script>	
 	<script src="js/views/vista-importar.js"></script>	
+	<script src="js/views/tablas-ambiente.js"></script>
 
 	<!-- Preparacion -->
 	<script src="js/main.js"></script>
@@ -468,6 +469,11 @@
 					<h3>Importar Sistema</h3>
 				</div>
 				<div class="modal-body">
+					<div class="form-group">
+						<label for="ambiente">Ambiente</label>
+						<select id="ambiente" name="ambiente" class="form-control">
+						</select>
+					</div>
 					<div class="table-sistema-importar">
 					</div>
 				</div>
@@ -486,6 +492,11 @@
 					<h3>Importar Entidad Canonica</h3>
 				</div>
 				<div class="modal-body">
+					<div class="form-group">
+						<label for="ambiente">Ambiente</label>
+						<select id="ambiente" name="ambiente" class="form-control">
+						</select>
+					</div>
 					<div class="table-entidad-importar">
 					</div>
 				</div>
@@ -504,11 +515,29 @@
 					<h3>Importar Valor Canonico</h3>
 				</div>
 				<div class="modal-body">
-					<div class="form-group">
-						<label for="id-entidad">Entidad</label>
-						<select id="id-entidad" name="id-entidad">
-
-						</select>
+					<div style="width: 100%">
+						<div style="width: 48%; display: inline-block;"> 
+							<div class="form-group">
+								<div style="display: inline-block; width: 25%; text-align: right">
+									<label for="ambiente">Ambiente</label>
+								</div>
+								<div style="display: inline-block; width: 73%;">
+									<select id="ambiente" name="ambiente" class="form-control">
+									</select>
+								</div>
+							</div>
+						</div>
+						<div style="width: 48%; display: inline-block;">
+							<div class="form-group">
+								<div style="display: inline-block; width: 25%; text-align: right">
+									<label for="id-entidad">Entidad</label>
+								</div>
+								<div style="display: inline-block; width: 73%;">
+									<select id="id-entidad" name="id-entidad" class="form-control">
+									</select>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="table-valor-canonico-importar">
 					</div>
@@ -528,17 +557,38 @@
 					<h3>Importar Valor Sistema</h3>
 				</div>
 				<div class="modal-body">
-					<div class="form-group">
-						<label for="id-sistema">Sistema</label>
-						<select id="id-sistema" name="id-sistema">
-
-						</select>
+					<div style="width: 30%; display: inline-block; margin-left: 5px">
+						<div class="form-group">
+							<div style="display: inline-block; width: 25%; text-align: right">
+								<label for="ambiente">Ambiente</label>
+							</div>
+							<div style="display: inline-block; width: 73%">
+								<select id="ambiente" name="ambiente" class="form-control">
+								</select>
+							</div>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="id-entidad">Entidad</label>
-						<select id="id-entidad" name="id-entidad">
-
-						</select>
+					<div style="width: 30%; display: inline-block; margin-left: 5px">
+						<div class="form-group">
+							<div style="display: inline-block; width: 25%; text-align: right">
+								<label for="id-sistema">Sistema</label>
+							</div>
+							<div style="display: inline-block; width: 73%">
+								<select id="id-sistema" name="id-sistema" class="form-control">
+								</select>
+							</div>
+						</div>
+					</div>
+					<div style="width: 30%; display: inline-block; margin-left: 5px">
+						<div class="form-group">
+							<div style="display: inline-block; width: 25%; text-align: right">
+								<label for="id-entidad">Entidad</label>
+							</div>
+							<div style="display: inline-block; width: 73%">
+								<select id="id-entidad" name="id-entidad" class="form-control">
+								</select>
+							</div>
+						</div>
 					</div>
 					<div class="table-valor-sistema-importar">
 					</div>
@@ -675,6 +725,49 @@
 			</div>
 		</div>
 	</script>
+
+	<script type="text/template" id="tablas-ambiente-template">
+		<div style="width: 80%; text-align: center">
+			<div style="width: 50%; display: inline-block; margin-left: 5px">
+				<div class="form-group">
+					<div style="display: inline-block; width: 30%; text-align: right">
+						<label for="ambiente">Ambiente</label>
+					</div>
+					<div style="display: inline-block; width: 68%; margin-left: 5px">
+						<select id="ambiente" name="ambiente" class="form-control">
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="tabla-dvms" style="height: 230px">
+			<ul class="nav nav-tabs">
+			  <li id="tabSistemas"><a>Sistemas</a></li>
+			  <li id="tabEntidades" ><a>Entidades</a></li>
+			  <li id="tabValoresCanonicos" ><a>Valores Canonicos</a></li>
+			  <li id="tabValoresSistema" ><a>Valores Sistema</a></li>
+			</ul>
+			<div class="tab-content">
+			</div>
+		</div>
+	</script>
+
+	<script type="text/template" id="comparacion-ambientes-template">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3>Importar desde archivo</h3>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button id="importarArch" class="btn btn-primary" data-dismiss="modal">Importar</button>
+					<button id="cancelar" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</script>
+
 
 </body>
 </html>
