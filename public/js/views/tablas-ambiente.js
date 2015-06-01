@@ -12,7 +12,8 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 		"click #tabSistemas" : "mostrarTablaSistemas",
 		"click #tabEntidades" : "mostrarTablaEntidades",
 		"click #tabValoresCanonicos" : "mostrarTablaValorCanonico",
-		"click #tabValoresSistema" : "mostrarTablaValorSistema"
+		"click #tabValoresSistema" : "mostrarTablaValorSistema",
+		"change #ambiente" : "cargarAmbiente"
 
 	}, 
 
@@ -29,19 +30,11 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 		configTable.headers.push("PAIS");
 		configTable.headers.push("NOMBRE");
 		configTable.headers.push("DESCRIPCION");
-		configTable.arrayData = this.tablasAmbiente.sistema;
-		configTable.title = "Sistema";
-		configTable.table = "sistema";
-		configTable.model = EnvMan.Models.Sistema;
-		configTable.view = EnvMan.Views.Sistema;
-		configTable.viewImport = EnvMan.Views.SistemaImportar;
-
-		var sistemasTable = crearTabla(configTable);
-
-		sistemasTable.render();
+		sistemasTable = MyTable(configTable);
+		sistemasTable.setHeight(250);
+		sistemasTable.setArrayData(this.tablasAmbiente.sistema);
 		this.$el.find('.tab-content').html('');
-		sistemasTable.$el.find('.botones').remove();
-		this.$el.find('.tab-content').append(sistemasTable.$el);
+		this.$el.find('.tab-content').append(sistemasTable);
 
 	},
 
@@ -58,19 +51,11 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 		configTable.headers.push("ID");
 		configTable.headers.push("NOMBRE");
 		configTable.headers.push("DESCRIPCION");
-		configTable.arrayData = this.tablasAmbiente.entidadcanonica;
-		configTable.title = "Entidad Canonica";
-		configTable.table = "entidadcanonica";
-		configTable.model = EnvMan.Models.Entidad;
-		configTable.view = EnvMan.Views.Entidad;
-		configTable.viewImport = EnvMan.Views.EntidadImportar;
-
-		var entidadesTable = crearTabla(configTable);
-
-		entidadesTable.render();
+		var entidadesTable = MyTable(configTable);
+		entidadesTable.setHeight(250);
+		entidadesTable.setArrayData(this.tablasAmbiente.entidadcanonica);
 		this.$el.find('.tab-content').html('');
-		entidadesTable.$el.find('.botones').remove();
-		this.$el.find('.tab-content').append(entidadesTable.$el);
+		this.$el.find('.tab-content').append(entidadesTable);
 
 	},
 
@@ -89,12 +74,6 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 		configTable.headers.push("ID_VALOR_CANONICO");
 		configTable.headers.push("ID_ENTIDAD_CANONICA");
 		configTable.headers.push("VALOR_SISTEMA");
-		configTable.arrayData = this.tablasAmbiente.valorsistema;
-		configTable.title = "Valor Sistema";
-		configTable.table = "valorsistema";
-		configTable.model = EnvMan.Models.ValorSistema;
-		configTable.view = EnvMan.Views.ValorSistema;
-		configTable.viewImport = EnvMan.Views.ValorSistemaImportar;
 		configTable.processCell = function (field, content) {
 
 			var nombre = content;
@@ -128,12 +107,12 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 
 		}
 
-		var valorSistemaTable = new crearTabla(configTable);
+		var valorSistemaTable = MyTable(configTable);
+		valorSistemaTable.setHeight(250);
+		valorSistemaTable.setArrayData(this.tablasAmbiente.valorsistema);
 
-		valorSistemaTable.render();
 		this.$el.find('.tab-content').html('');
-		valorSistemaTable.$el.find('.botones').remove();
-		this.$el.find('.tab-content').append(valorSistemaTable.$el);
+		this.$el.find('.tab-content').append(valorSistemaTable);
 
 	},
 
@@ -151,12 +130,6 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 		configTable.headers.push("ID_ENTIDAD_CANONICA");
 		configTable.headers.push("DESCRIPCION");
 		configTable.headers.push("VALOR_CANONICO");
-		configTable.arrayData = this.tablasAmbiente.valorcanonico;
-		configTable.title = "Valor Canonico";
-		configTable.table = "valorcanonico";
-		configTable.model = EnvMan.Models.ValorCanonico;
-		configTable.view = EnvMan.Views.ValorCanonico;
-		configTable.viewImport = EnvMan.Views.ValorCanonicoImportar;
 		configTable.processCell = function (field, content) {
 
 			var nombre = content;
@@ -176,18 +149,33 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 
 		}
 
-		var valorCanonicoTable = new crearTabla(configTable);
+		var valorCanonicoTable = MyTable(configTable);
+		valorCanonicoTable.setHeight(250);
+		valorCanonicoTable.setArrayData(this.tablasAmbiente.valorcanonico);
 
-		valorCanonicoTable.render();
 		this.$el.find('.tab-content').html('');
-		valorCanonicoTable.$el.find('.botones').remove();
-		this.$el.find('.tab-content').append(valorCanonicoTable.el);
+		this.$el.find('.tab-content').append(valorCanonicoTable);
 
 	},
+
+	cargarAmbiente : function (e) {
+
+		console.log('cargarAmbiente');
+		var ambiente = this.$el.find('#ambiente').val();
+		this.tablasAmbiente.sistema = window.generales.datos.sistemas(ambiente);
+		this.tablasAmbiente.entidadcanonica = window.generales.datos.entidades(ambiente);
+		this.tablasAmbiente.valorcanonico = window.generales.datos.valoresCanonicos(ambiente);
+		this.tablasAmbiente.valorsistema = window.generales.datos.valoresSistema(ambiente); 
+
+	},	
 
 	render : function () {
 
 		this.$el.html(this.template());
+
+		window.generales.cargarComboAmbientes(this.$el.find('#ambiente'));
+
+		this.cargarAmbiente();
 
 		this.mostrarTablaSistemas(); 
 

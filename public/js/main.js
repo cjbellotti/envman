@@ -188,6 +188,16 @@ window.generales.modificarValorSistemaEnJob = function(registro) {
 
 }
 
+window.generales.crearTablas = function(tablas) {
+
+	tablas = {};
+
+	tablas.sistema = [];
+	tablas.entidad = [];
+	tablas.valorcanonico =[];
+	tablas.valorsistema = [];	
+}
+
 window.generales.crearNuevoJob = function () {
 
 	window.job = {

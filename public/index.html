@@ -87,6 +87,13 @@
 
 		}
 
+		.th-inner {
+
+			width: 100%;
+			overflow : hidden;
+
+		}
+
  	</style>
 	
 </head>
@@ -153,6 +160,7 @@
 	<script src="js/views/script.js"></script>	
 	<script src="js/views/vista-importar.js"></script>	
 	<script src="js/views/tablas-ambiente.js"></script>
+	<script src="js/views/comparar-ambientes.js"></script>
 
 	<!-- Preparacion -->
 	<script src="js/main.js"></script>
@@ -622,6 +630,7 @@
 			</div>
 			<div class="panel-footer">
 				<button class="btn btn-success glyphicon glyphicon-plus" id="agregar"></button>
+				<button class="btn btn-primary glyphicon glyphicon-sort" id="comparar"></button>
 			</div>
 		</div>
 	</script>
@@ -728,7 +737,7 @@
 
 	<script type="text/template" id="tablas-ambiente-template">
 		<div style="width: 80%; text-align: center">
-			<div style="width: 50%; display: inline-block; margin-left: 5px">
+			<div>
 				<div class="form-group">
 					<div style="display: inline-block; width: 30%; text-align: right">
 						<label for="ambiente">Ambiente</label>
@@ -753,15 +762,19 @@
 	</script>
 
 	<script type="text/template" id="comparacion-ambientes-template">
-		<div class="modal-dialog">
+		<div class="modal-dialog" style="width: 100%">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3>Importar desde archivo</h3>
+					<h3>Comparar Ambientes</h3>
 				</div>
 				<div class="modal-body">
+					<div id="ambiente1" style="width: 49%; display: inline-block">
+					</div>
+					<div id="ambiente2" style="width: 49%; display: inline-block">
+					</div>
 				</div>
 				<div class="modal-footer">
-					<button id="importarArch" class="btn btn-primary" data-dismiss="modal">Importar</button>
+					<button id="verificar" class="btn btn-primary" data-dismiss="modal">Verificar</button>
 					<button id="cancelar" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 				</div>
 			</div>

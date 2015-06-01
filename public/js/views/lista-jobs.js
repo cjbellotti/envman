@@ -19,6 +19,7 @@ EnvMan.Views.ListaJobs = Backbone.View.extend({
 	events : {
 
 		"click #agregar" : "agregar",
+		"click #comparar" : "comparar",
 		"click .link-job" : "mostrarJob",
 		"change #ordenar" : "ordenar",
 		"keyup #filtro" : "filtrar",
@@ -36,6 +37,18 @@ EnvMan.Views.ListaJobs = Backbone.View.extend({
 			backdrop : 'static',
 			keyboard : false
 		});
+
+	},
+
+	comparar : function (e) {
+
+		var view = new EnvMan.Views.CompararAmbientes();
+		$('#modals').html(view.el);
+		view.render();
+		view.$el.modal({
+			backdrop: 'static',
+			keyboard: false
+		});	
 
 	},
 
