@@ -74,6 +74,9 @@ function MyTable(config) {
 
 		var row = $('<tr/>');
 
+		if (config.processRow)
+			config.processRow(row, data);
+
 		if (config.selectable) {
 
 			var td = $('<td/>');
@@ -94,6 +97,7 @@ function MyTable(config) {
 			row.append(td);
 
 		}
+
 
 		for (var field in data) {
 			if (headerTemplate[field] != undefined)

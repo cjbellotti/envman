@@ -25,10 +25,59 @@ EnvMan.Views.CompararAmbientes = Backbone.View.extend({
 		this.ambiente1View.render();
 		this.ambiente2View.render();
 
+		this.ambiente1View.$el.find('#ambiente').on('change', this, this.comparar);
+		this.ambiente2View.$el.find('#ambiente').on('change', this, this.comparar);
+
 		var self = this;
 		this.$el.on('hidden.bs.modal', function () {
 			self.$el.remove();
 		});
 			
+	},
+
+	comparar : function (e) {
+
+		var self = e.data;
+
+		var ambiente1 = self.ambiente1View.$el.find('#ambiente').val();
+		var ambiente2 = self.ambiente2View.$el.find('#ambiente').val();
+
+		var ambiente1Data = {};
+		ambiente1Data.target = ambiente2;
+		ambiente1Data.registros = _.clone(self.ambiente1View.tablasAmbiente);
+	
+		var ambiente2Data = {};
+		ambiente2Data.target = ambiente1;
+		ambiente2Data.registros = _.clone(self.ambiente2View.tablasAmbiente);
+
+		$.ajax({	
+
+			method : 'POST',
+			url : '/verificar',
+			contentType : 'application/json',
+			data : JSON.stringify(ambiente1Data),
+			success : function (data) {
+
+				self.ambiente1View.tablasAmbiente = data;
+
+				$.ajax({
+
+					method : 'POST',
+					url : '/verificar',
+					contentType : 'application/json',
+					data : JSON.stringify(ambiente2Data),
+					success : function (data) {
+						
+						self.ambiente2View.tablasAmbiente = data;
+
+					}
+
+				});
+
+			}
+
+		});
+
 	}
+
 });

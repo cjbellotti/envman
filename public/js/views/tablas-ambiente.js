@@ -15,7 +15,19 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 		"click #tabValoresSistema" : "mostrarTablaValorSistema",
 		"change #ambiente" : "cargarAmbiente"
 
-	}, 
+	},
+
+	procesarFila : function (row, data) {
+
+		if (data.IDN) {
+			row.css('background', 'green');	
+		} else if (data.MOD) {
+			row.css('background', 'blue');	
+		} else {
+			row.css('background', 'white');
+		}
+
+	},	
 
 	mostrarTablaSistemas : function (e) {
 
@@ -30,6 +42,7 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 		configTable.headers.push("PAIS");
 		configTable.headers.push("NOMBRE");
 		configTable.headers.push("DESCRIPCION");
+		configTable.processRow = this.procesarFila;
 		sistemasTable = MyTable(configTable);
 		sistemasTable.setHeight(250);
 		sistemasTable.setArrayData(this.tablasAmbiente.sistema);
@@ -51,6 +64,7 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 		configTable.headers.push("ID");
 		configTable.headers.push("NOMBRE");
 		configTable.headers.push("DESCRIPCION");
+		configTable.processRow = this.procesarFila;
 		var entidadesTable = MyTable(configTable);
 		entidadesTable.setHeight(250);
 		entidadesTable.setArrayData(this.tablasAmbiente.entidadcanonica);
@@ -74,6 +88,7 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 		configTable.headers.push("ID_VALOR_CANONICO");
 		configTable.headers.push("ID_ENTIDAD_CANONICA");
 		configTable.headers.push("VALOR_SISTEMA");
+		configTable.processRow = this.procesarFila;
 		configTable.processCell = function (field, content) {
 
 			var nombre = content;
@@ -130,6 +145,7 @@ EnvMan.Views.TablasAmbiente = Backbone.View.extend({
 		configTable.headers.push("ID_ENTIDAD_CANONICA");
 		configTable.headers.push("DESCRIPCION");
 		configTable.headers.push("VALOR_CANONICO");
+		configTable.processRow = this.procesarFila;
 		configTable.processCell = function (field, content) {
 
 			var nombre = content;
