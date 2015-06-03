@@ -58,7 +58,19 @@ EnvMan.Views.CompararAmbientes = Backbone.View.extend({
 			data : JSON.stringify(ambiente1Data),
 			success : function (data) {
 
-				self.ambiente1View.tablasAmbiente = data;
+				for (var ambiente in data) {
+
+					for (var index in data[ambiente]){
+
+						
+						var query = {};
+
+					
+									
+						self.ambiente1View.tablasAmbiente = data[ambiente2];
+					}
+
+				}
 
 				$.ajax({
 
@@ -68,7 +80,7 @@ EnvMan.Views.CompararAmbientes = Backbone.View.extend({
 					data : JSON.stringify(ambiente2Data),
 					success : function (data) {
 						
-						self.ambiente2View.tablasAmbiente = data;
+						self.ambiente2View.tablasAmbiente = data[ambiente1];
 
 					}
 
