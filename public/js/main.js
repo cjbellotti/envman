@@ -21,6 +21,16 @@ window.Fases = [
 	"PROD"
 ];
 
+
+var tablas = {
+
+	DVM_SISTEMA : window.collections.sistemas,
+	DVM_ENTIDAD_CANONICA : window.collections.entidades,
+	DVM_VALOR_CANONICO : window.collections.valoresCanonicos,
+	DVM_VALOR_SISTEMA : window.collections.valoresSistema
+
+};
+
 window.generales.agregarRegistroAlJob = function(tabla, registro) {
 
 	var ret =  true;
@@ -414,7 +424,6 @@ window.generales.cargarComboSistemas = function (elemento, ambiente) {
 
 }
 
-
 window.generales.cargarComboEntidades = function (elemento, ambiente) {
 
 	elemento.html('');
@@ -431,15 +440,110 @@ window.generales.cargarComboEntidades = function (elemento, ambiente) {
 
 }
 
+window.v2 = {};
+
+window.v2.crearTablas = function (registros) {
+
+		registros.DVM_SISTEMA = [];
+		registros.DVM_ENTIDAD_CANONICA = [];
+		registros.DVM_VALOR_CANONICO = [];
+		registros.DVM_VALOR_SISTEMA = [];
+
+}
+
+window.v2.completarRegistros = function (registros) {
+
+
+	for (var tabla in registros) {
+
+		for (var index in registros[tabla]) {		
+
+				window.v2.procesarRegistro(registros, registros[tabla][index]);
+
+		}
+
+	}
+
+}
+
+window.v2.procesarRegistro = function (registros, registro) {
+
+	for (var field in registro) {
+
+		window.v2.procesarCampo(registros, field, registro[field]);
+
+	}
+}
+
+window.v2.generarQuery = function (registro, tabla) {
+
+	var query = {};
+
+	for (var field in config.claves[tabla]) {
+
+		query[field] = registro[field];
+
+	}
+
+	return query;
+}
+
+window.v2.procesarCampo = function(registros, campo, valor) {
+
+	if (config.relationships[campo]) {
+
+		var tabla = config.relationships[campo];
+		var registro = tablas[tabla].get(valor);
+		
+		if (registro) {
+				var query = window.v2.generarQuery(registro.toJSON(), tabla);
+
+				var index = _.findIndex(registros[tabla], query);
+				if (index < 0) {
+
+						var model = tablas[tabla].where(query);
+						if (model.length > 0) {
+
+								var data = model[0].toJSON();
+								registros[tabla].push(data);
+
+						}
+
+				}
+
+				window.v2.procesarRegistro(registros, registro.toJSON());
+
+		}
+
+	}
+
+}
+
+
 $(function() {
 		
 		$.ajax({
 
 				url : '/ambientes',
 				method : 'GET',
+				async : false,
 				success : function (data) {
 
 					window.ambientes = data;
+
+				}
+
+		});
+
+
+		$.ajax({
+
+				url : '/config',
+				method : 'GET',
+				async : false,
+				success : function (data) {
+
+					window.config = data;
 
 				}
 

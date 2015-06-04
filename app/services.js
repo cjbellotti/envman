@@ -3,8 +3,8 @@ var app = require('express')(),
 	fs = require('fs'),
 	manageJob = require('./tables/job'),
 	verifyJob = require('./lib/verify-job'),
-	//generarScript = require('./lib/generar-script-dvm-v2');
-	generarScript = require('./lib/generar-script-dvm-v3');
+	generarScript = require('./lib/generar-script-dvm-v3'),
+	getConfig = require('./lib/get-config');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -81,6 +81,7 @@ function definirServicio (file) {
 				.json(ret)
 				.end();
 		});
+
 
 	}
 
@@ -268,6 +269,14 @@ function definirServicioJob () {
 		res.json(listaAmbientes)
 			.end();
 	});
+
+	console.log('Publicando GET - /config');
+	app.get('/config', function (req, res) {
+
+		res.json(getConfig())
+			.end();
+
+	});		
 
 }
 

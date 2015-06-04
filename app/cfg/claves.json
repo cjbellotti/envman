@@ -21,7 +21,8 @@
 		"NOMBRE" : {}
 	},
 	"DVM_SISTEMA" : {
-		"NOMBRE" : {}
+		"NOMBRE" : {},
+		"PAIS" : {}
 	},
 	"DVM_VALOR_CANONICO" : {
 		"ID_ENTIDAD_CANONICA" : {},
