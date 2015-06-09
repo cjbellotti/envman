@@ -41,15 +41,28 @@ EnvMan.Views.ValorSistema = Backbone.View.extend({
 
 		}
 
-		this.model.set('ID_SISTEMA', parseInt(this.$el.find('#sistema').val()));
-		this.model.set('ID_ENTIDAD_CANONICA', parseInt(this.$el.find('#entidad').val()));
-		this.model.set('ID_VALOR_CANONICO', parseInt(this.$el.find('#valor-canonico').val()));
-		this.model.set('VALOR_SISTEMA', this.$el.find('#valor-sistema').val() || "")
+		var id_sistema = parseInt(this.$el.find('#sistema').val());
+		var id_entidad_canonica = parseInt(this.$el.find('#entidad').val());
+		var id_valor_canonico = parseInt(this.$el.find('#valor-canonico').val());
+		var valor_sistema = this.$el.find('#valor-sistema').val() || "";
+
+		this.model.set('ID_SISTEMA', id_sistema);
+		this.model.set('ID_ENTIDAD_CANONICA', id_entidad_canonica);
+		this.model.set('ID_VALOR_CANONICO', id_valor_canonico);
+		this.model.set('VALOR_SISTEMA', valor_sistema)
 
 		if (nuevo) {
 
-			window.collections.valoresSistema.add(this.model);
-			generales.agregarValorSistemaAJob(this.model.toJSON());
+			var index = _.findIndex(window.job.registros.valorsistema, { ID_SISTEMA : id_sistema,
+																			ID_ENTIDAD_CANONICA : id_entidad_canonica,
+																			ID_VALOR_CANONICO : id_valor_canonico });
+
+			if (index < 0) {
+
+					window.collections.valoresSistema.add(this.model);
+					generales.agregarValorSistemaAJob(this.model.toJSON());
+
+			}
 
 		} else {
 			window.collections.valoresSistema.set(this.model, {remove : false});

@@ -37,14 +37,25 @@ EnvMan.Views.ValorCanonico = Backbone.View.extend({
 
 		}
 
-		this.model.set('ID_ENTIDAD_CANONICA', parseInt(this.$el.find('#entidad').val()));
-		this.model.set('VALOR_CANONICO', this.$el.find('#valor-canonico').val());
-		this.model.set('DESCRIPCION', this.$el.find('#descripcion').val());
+		var id_entidad_canonica = parseInt(this.$el.find('#entidad').val());
+		var valor_canonico = this.$el.find('#valor-canonico').val();
+	   	var descripcion = this.$el.find('#descripcion').val();
+
+		this.model.set('ID_ENTIDAD_CANONICA', id_entidad_canonica);
+		this.model.set('VALOR_CANONICO', valor_canonico);
+		this.model.set('DESCRIPCION', descripcion);
 
 		if (nuevo) {
 
-			window.collections.valoresCanonicos.add(this.model);
-			generales.agregarValorCanonicoAJob(this.model.toJSON());
+			var index = _.findIndex(window.job.registros.valorcanonico, { ID_ENTIDAD_CANONICA : id_entidad_canonica,
+																			VALOR_CANONICO : valor_canonico});
+
+			if (index < 0) {
+
+					window.collections.valoresCanonicos.add(this.model);
+					generales.agregarValorCanonicoAJob(this.model.toJSON());
+
+			}
 
 		} else {
 

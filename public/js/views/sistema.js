@@ -36,14 +36,24 @@ EnvMan.Views.Sistema = Backbone.View.extend({
 
 		}
 
-		this.model.set('NOMBRE', this.$el.find('#nombre').val());
-		this.model.set('DESCRIPCION', this.$el.find('#descripcion').val());
-		this.model.set('PAIS', this.$el.find('#pais').val());
+		var nombre = this.$el.find('#nombre').val();
+		var descripcion = this.$el.find('#descripcion').val();
+		var pais = this.$el.find('#pais').val();
+
+		this.model.set('NOMBRE', nombre);
+		this.model.set('DESCRIPCION', descripcion);
+		this.model.set('PAIS', pais);
 
 		if (nuevo) {
 
-			window.collections.sistemas.add(this.model);
-			generales.agregarRegistroAlJob("sistema", this.model.toJSON());
+			var index = _.findIndex(window.job.registros.sistema, { NOMBRE : nombre, PAIS: pais });
+
+			if (index < 0) {
+
+					window.collections.sistemas.add(this.model);
+					generales.agregarRegistroAlJob("sistema", this.model.toJSON());
+
+			}
 
 		} else {
 
@@ -64,6 +74,8 @@ EnvMan.Views.Sistema = Backbone.View.extend({
 		}
 
 		this.$el.html(this.template(data));
+
+		this.$el.find('#pais').val(data.PAIS);
 
 		var self = this;
 		this.$el.on('hidden.bs.modal', function () {

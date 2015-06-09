@@ -106,7 +106,7 @@ function MyTable(config) {
 
 		for (var field in headerTemplate) {
 			var td = $('<td/>');
-			var content = processCell(field, headerTemplate[field]);
+			var content = processCell(field, headerTemplate[field], data);
 			//td.html(data[field]);
 			td.html(content);
 			td.css('width', cellWidth + '%');

@@ -34,14 +34,22 @@ EnvMan.Views.Entidad = Backbone.View.extend({
 			nuevo = true;
 		}
 
-		this.model.set('NOMBRE', this.$el.find('#nombre').val());
-		this.model.set('DESCRIPCION', this.$el.find('#descripcion').val());
+		var nombre = this.$el.find('#nombre').val();
+		var descripcion = this.$el.find('#descripcion').val();
+
+		this.model.set('NOMBRE', nombre);
+		this.model.set('DESCRIPCION', descripcion);
 
 		window.collections.entidades.add(this.model);
 
 		if (nuevo) {
-			window.collections.entidades.add(this.model);
-			generales.agregarRegistroAlJob("entidadcanonica", this.model.toJSON());
+
+			var index = _.findIndex(window.job.registros.entidadcanonica, { NOMBRE : nombre });
+			if (index < 0) {	
+					window.collections.entidades.add(this.model);
+					generales.agregarRegistroAlJob("entidadcanonica", this.model.toJSON());
+			}
+
 		} else {
 			window.collections.entidades.set(this.model, { remove : false });
 			generales.modificarRegistroEnJob("entidadcanonica", this.model.toJSON());

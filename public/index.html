@@ -216,18 +216,29 @@
 					<form action="" class="form-horizontal" role="form">
 						<div class="form-group">
 							<label for="nombre" class="col-lg-2 control-label">Nombre</label>
-							<div class="col-lg-10"><input type="text" class="form-control" id="nombre" name="nombre" value="{{ NOMBRE }}"></div>
+							<div class="col-lg-10"><input type="text" class="form-control" id="nombre" name="nombre" maxlength="20" value="{{ NOMBRE }}"></div>
 						</div>
 						<div class="form-group">
 							<label for="descripcion" class="col-lg-2 control-label">Descripcion</label>
 							<div class="col-lg-10">
-								<textarea class="form-control" id="descripcion" name="descripcion">{{ DESCRIPCION }}</textarea>
+								<textarea class="form-control" id="descripcion" name="descripcion" maxlength="50">{{ DESCRIPCION }}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="pais" class="col-lg-2 control-label">Pais</label>
 							<div class="col-lg-10">
-								<input type = "text" class="form-control" id="pais" name="pais" value="{{ PAIS }}"></input>
+								<!--<input type = "text" class="form-control" id="pais" name="pais" maxlength="2" value="{{ PAIS }}"></input>-->
+								<select id="pais" class="form-control">
+									<option value="AR">AR</option>
+									<option value="CL">CL</option>
+									<option value="CO">CO</option>
+									<option value="EC">EC</option>
+									<option value="PE">PE</option>
+									<option value="PR">PR</option>
+									<option value="TT">TT</option>
+									<option value="UY">UY</option>
+									<option value="VE">VE</option>
+								</select>
 							</div>
 						</div>
 					</form>
@@ -250,12 +261,12 @@
 					<div action="" class="form-horizontal" role="form">
 						<div class="form-group">
 							<label for="nombre" class="col-lg-2 control-label">Nombre</label>
-							<div class="col-lg-10"><input type="text" class="form-control" id="nombre" name="nombre" value="{{ NOMBRE }}"></div>
+							<div class="col-lg-10"><input type="text" class="form-control" id="nombre" name="nombre" maxlength="50" value="{{ NOMBRE }}"></div>
 						</div>
 						<div class="form-group">
 							<label for="descripcion" class="col-lg-2 control-label">Descripcion</label>
 							<div class="col-lg-10">
-								<textarea class="form-control" id="descripcion" name="descripcion">{{ DESCRIPCION }}</textarea>
+								<textarea class="form-control" id="descripcion" name="descripcion" maxlength="50">{{ DESCRIPCION }}</textarea>
 							</div>
 						</div>
 					</div>
@@ -286,12 +297,12 @@
 						</div>
 						<div class="form-group">
 							<label for="valor-canonico" class="col-lg-2 control-label">Valor Canonico</label>
-							<div class="col-lg-10"><input type="text" class="form-control" id="valor-canonico" name="valor-canonico" value="{{ VALOR_CANONICO }}"></div>
+							<div class="col-lg-10"><input type="text" class="form-control" id="valor-canonico" name="valor-canonico" maxlength="100" value="{{ VALOR_CANONICO }}"></div>
 						</div>
 						<div class="form-group">
 							<label for="descripcion" class="col-lg-2 control-label">Descripcion</label>
 							<div class="col-lg-10">
-								<textarea class="form-control" id="descripcion" name="descripcion">{{ DESCRIPCION }}</textarea>
+								<textarea class="form-control" id="descripcion" name="descripcion" maxlength="100">{{ DESCRIPCION }}</textarea>
 							</div>
 						</div>
 					</div>
@@ -336,7 +347,9 @@
 						</div>
 						<div class="form-group">
 							<label for="valor-sistema" class="col-lg-2 control-label">Valor Sistema</label>
-							<div class="col-lg-10"><input type="text" class="form-control" id="valor-sistema" name="valor-sistema" value="{{ VALOR_SISTEMA }}"></input></div>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="valor-sistema" name="valor-sistema" maxlength="100" value="{{ VALOR_SISTEMA }}"></input>
+							</div>
 						</div>
 					</div>
 				</div>

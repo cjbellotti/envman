@@ -214,6 +214,7 @@ EnvMan.Views.Job = Backbone.View.extend({
 		configTable.headers = [];
 		configTable.headers.push("ID");
 		configTable.headers.push("ID_SISTEMA");
+		configTable.headers.push("PAIS");
 		configTable.headers.push("ID_VALOR_CANONICO");
 		configTable.headers.push("ID_ENTIDAD_CANONICA");
 		configTable.headers.push("VALOR_SISTEMA");
@@ -223,7 +224,7 @@ EnvMan.Views.Job = Backbone.View.extend({
 		configTable.model = EnvMan.Models.ValorSistema;
 		configTable.view = EnvMan.Views.ValorSistema;
 		configTable.viewImport = EnvMan.Views.ValorSistemaImportar;
-		configTable.processCell = function (field, content) {
+		configTable.processCell = function (field, content, rowData) {
 
 			var nombre = content;
 			if (field == "ID_ENTIDAD_CANONICA"){
@@ -240,7 +241,7 @@ EnvMan.Views.Job = Backbone.View.extend({
 				if (!sistema)
 					nombre = "Sistema " + content + " inexistente.";
 				else
-					nombre = sistema.get('NOMBRE') + ' - ' + sistema.get('PAIS');
+					nombre = sistema.get('NOMBRE');
 
 			} else if (field == "ID_VALOR_CANONICO") {
 
@@ -250,6 +251,13 @@ EnvMan.Views.Job = Backbone.View.extend({
 				else
 					nombre = valorCanonico.get('VALOR_CANONICO');
 
+			} else if (field == 'PAIS') {
+
+				var sistema = window.collections.sistemas.get(rowData.ID_SISTEMA);
+				if (!sistema)
+					nombre = "Sin Pais";
+				else
+					nombre = sistema.get('PAIS');		
 			}
 
 			return nombre;
@@ -362,6 +370,20 @@ EnvMan.Views.Job = Backbone.View.extend({
 		this.$el.html(this.template(job));
 		this.$el.find('#' + job.target + ' button').removeClass('disabled');
 		this.mostrarTablaSistemas();
+
+		if (window.job.job != '')
+				this.$el.find('#importar').attr('disabled', 'disabled');
+
+		var self = this;
+		for (var tabla in window.job.registros) { 
+
+				Object.observe(window.job.registros[tabla], function() {
+
+					self.$el.find('#importar').attr('disabled', 'disabled');
+
+				}); 
+
+		}
 
 	}
 
