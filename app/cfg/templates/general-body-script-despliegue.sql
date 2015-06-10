@@ -2,8 +2,10 @@ ALTER SESSION SET CURRENT_SCHEMA=DTVLA;
 
 DECLARE
 
-counter NUMBER;
+counter_ins_tot NUMBER;
+counter_upd_tot NUMBER;
 counter_ins NUMBER;
+counter_upd NUMBER;
 V_COUNT NUMBER;
 
 {{ DECLARACIONES }}
@@ -11,9 +13,12 @@ V_COUNT NUMBER;
 BEGIN
 
 {{ ACCIONES }}
-	
-	COMMIT;
-		DBMS_OUTPUT.Put_line ('Termino OK');
+
+	DBMS_OUTPUT.Put_line ('Termino Ok.');
+	DBMS_OUTPUT.Put_line ('Se insertaron: ' || TO_CHAR(counter_ins) || ' nuevos de los ' || TO_CHAR(counter_ins_tot) || ' registros.');
+	DBMS_OUTPUT.Put_line ('Se actualizaron: ' || TO_CHAR(counter_upd) || ' de los ' || TO_CHAR(counter_upd_tot) || ' a actualizar.');
+
+
 	EXCEPTION
    WHEN OTHERS
    THEN

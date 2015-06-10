@@ -10,6 +10,7 @@ var templateUpdate = fs.readFileSync(__dirname + '/../cfg/templates/general-upda
 var claves = JSON.parse(fs.readFileSync('./app/cfg/claves.json'));
 
 var DATOS = {};
+var tablas = {};
 
 DATOS.ADD = function (valor, nombre) {
 	if (!DATOS[nombre]) {
@@ -24,6 +25,16 @@ DATOS.ADD = function (valor, nombre) {
 
 DATOS.EXIST = function (cadena, busqueda) {
 	return (cadena.indexOf(busqueda) >= 0);
+}
+
+DATOS.GET_DATA = function(tabla, campo, id){
+
+	var data = null;	
+	var index = _.findIndex(tablas[tabla], { ID : parseInt(id) });
+	if (index >= 0) 
+		data = tablas[tabla][index][campo];
+	return data;
+		
 }
 
 var templateDir = __dirname + '/../cfg/templates';
@@ -211,6 +222,8 @@ function generarScript(nroJob) {
 	}
 
 	job = normalizarNombreTablas(job);
+
+	tablas = job.registros;
 
 
 	if (job) {

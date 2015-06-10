@@ -1,6 +1,6 @@
 	{{ ADD('sistema'  + VALORES.ID + ' DTVLA.DVM_SISTEMA.ID%type;', 'DECLARACIONES') }}
 	select count(1) into V_COUNT from DTVLA.DVM_SISTEMA where NOMBRE = {{ VALORES.NOMBRE }} and PAIS = {{ VALORES.PAIS }};
-	counter:=counter+1;
+	counter_ins_tot:=counter_ins_tot+1;
 	if V_COUNT = 0 THEN
 		select nvl(max(id),0)+1 into sistema{{ VALORES.ID }} from DTVLA.DVM_SISTEMA;
 		insert into {{ TABLA }} (ID, NOMBRE, DESCRIPCION, PAIS) values  (sistema{{ VALORES.ID }}, {{ VALORES.NOMBRE }}, {{ VALORES.DESCRIPCION }});
