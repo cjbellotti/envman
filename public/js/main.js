@@ -408,9 +408,12 @@ window.generales.cargarComboAmbientes = function (elemento) {
 	}
 }
 
-window.generales.cargarComboSistemas = function (elemento, ambiente) {
+window.generales.cargarComboSistemas = function (elemento, ambiente, modalidad) {
 
 	elemento.html('');
+
+	if (modalidad == '*')
+		elemento.append('<option value="*">Todas</option>');
 
 	var sistemas = window.generales.datos.sistemas(ambiente);
 	for (var index in sistemas){
@@ -424,9 +427,12 @@ window.generales.cargarComboSistemas = function (elemento, ambiente) {
 
 }
 
-window.generales.cargarComboEntidades = function (elemento, ambiente) {
+window.generales.cargarComboEntidades = function (elemento, ambiente, modalidad) {
 
 	elemento.html('');
+
+	if (modalidad == '*')
+		elemento.append('<option value="*">Todas</option>');
 
 	var entidades = window.generales.datos.entidades(ambiente);
 	for (var index in entidades){

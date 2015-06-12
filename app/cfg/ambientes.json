@@ -3,18 +3,21 @@
 	"DESA" : [
 		{ 
 			"nombre" : "DESA",
+			"db_name" : "esbdesa",
 			"url" : "hostdesa"
 		}
 	],
 	"IST" : [
 		{
 			"nombre" : "IST",
+			"db_name" : "esbdb02",
 			"url" : "hostist"
 		}
 	],
 	"UAT" : [
 		{
 			"nombre" : "UAT",
+			"db_name" : "esbdb",
 			"url" : "hostuat"
 		}
 	],
@@ -27,14 +30,17 @@
 	"PROD" : [
 		{
 			"nombre" : "DC_AR",
+			"db_name" : "infradb",
 			"url" : "hostprodsync"
 		},
 		{	
 			"nombre" : "DC_VE",
+			"db_name" : "infradb",
 			"url" : "hostprodasync"
 		},
 		{
 			"nombre" : "DC_CO",
+			"db_name" : "infradb",
 			"url" : "hostprodcobro"
 		}
 	]

@@ -88,7 +88,8 @@ EnvMan.Views.ListaJobs = Backbone.View.extend({
 				var tmpJobArray = collections.jobs.toJSON();
 				tmpJobArray = _.sortBy(tmpJobArray, function (o) {
 
-					return o.fecha || Date.now();
+					//return o.fecha || Date.now();
+					return o.fecha;
 
 				});
 
@@ -140,7 +141,7 @@ EnvMan.Views.ListaJobs = Backbone.View.extend({
 				var tmpJobArray = collections.jobs.toJSON();
 				tmpJobArray = _.sortBy(tmpJobArray, function (o) {
 
-					return o.fecha || Date.now();
+					return o.fecha;
 
 				});
 

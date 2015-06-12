@@ -58,11 +58,11 @@ EnvMan.Views.ValorCanonicoImportar = Backbone.View.extend({
 			var entidad = this.$el.find('#id-entidad').val();
 
 			var lista = window.generales.datos.valoresCanonicos(ambiente);
-
+			
 			var arrayData = [];
 			for (var index in lista) {
-				if (_.findIndex(job.registros.sistema, lista[index]) < 0 &&
-								lista[index].ID_ENTIDAD_CANONICA == entidad)
+				if ((_.findIndex(job.registros.sistema, lista[index]) < 0 &&
+								lista[index].ID_ENTIDAD_CANONICA == entidad) || entidad == '*')
 					arrayData.push(lista[index]);
 			}
 
@@ -80,7 +80,7 @@ EnvMan.Views.ValorCanonicoImportar = Backbone.View.extend({
 
 		this.$el.find('#ambiente').val(window.job.target);
 
-		window.generales.cargarComboEntidades(this.$el.find('#id-entidad'), window.job.target);
+		window.generales.cargarComboEntidades(this.$el.find('#id-entidad'), window.job.target, '*');
 
 		if (window.job.target != 'DESA')
 			this.$el.find('#ambiente').attr('disabled', 'disabled');

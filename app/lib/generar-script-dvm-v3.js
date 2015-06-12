@@ -4,9 +4,14 @@ var generarScript = require('./generar-script-dvm-v2');
 function wrapGenerarScript(job) {
 
 	var result = {};
-	for (var dc in job) {
+	for (var dc in job.registros) {
 
-		result[dc] = generarScript(job[dc]);
+		var data = {
+				target : job.target,
+				registros : job.registros[dc]
+
+		};
+		result[dc] = generarScript(data, dc);
 
 	}
 

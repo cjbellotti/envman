@@ -33,7 +33,10 @@ EnvMan.Views.VerificarJob = Backbone.View.extend({
 			url : '/generar-script',
 			method : 'POST',
 			contentType : 'application/json',
-			data : JSON.stringify(this.datos),
+			data : JSON.stringify({
+					target : window.job.target,
+					registros : this.datos
+			}),
 			success : function (data) {
 				console.log(data);
 

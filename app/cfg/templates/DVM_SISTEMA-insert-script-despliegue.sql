@@ -5,8 +5,8 @@
 		select nvl(max(id),0)+1 into sistema{{ VALORES.ID }} from DTVLA.DVM_SISTEMA;
 		insert into {{ TABLA }} (ID, NOMBRE, DESCRIPCION, PAIS) values  (sistema{{ VALORES.ID }}, {{ VALORES.NOMBRE }}, {{ VALORES.DESCRIPCION }});
 		counter_ins:=counter_ins+1;
-		DBMS_OUTPUT.PUT_LINE ('Registro: '|| TO_CHAR(counter) || ' se inserto OK' );
+		DBMS_OUTPUT.PUT_LINE ('Registro: '|| TO_CHAR(counter_ins_tot) || ' se inserto OK' );
 	else
 		select ID into sistema{{ VALORES.ID }} where NOMBRE = {{ VALORES.NOMBRE }} and PAIS = {{ VALORES.PAIS }};
-		DBMS_OUTPUT.PUT_LINE ('Registro: '|| TO_CHAR(counter) || ' ya existe' );
+		DBMS_OUTPUT.PUT_LINE ('Registro: '|| TO_CHAR(counter_ins_tot) || ' ya existe' );
 	end if;		

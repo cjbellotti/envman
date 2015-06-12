@@ -26,18 +26,31 @@ EnvMan.Views.ValorSistemaImportar = Backbone.View.extend({
 			var nombre = content;
 			if (field == "ID_ENTIDAD_CANONICA"){
 
-				var entidad = window.collections.entidades.get(content);
-				nombre = entidad.get('NOMBRE');
+				if (parseInt(content)) {
+
+					var entidad = window.collections.entidades.get(content);
+					nombre = entidad.get('NOMBRE');
+
+				}
+
 
 			} else if (field == "ID_SISTEMA") {
 
-				var valorCanonico = window.collections.sistemas.get(content);
-				nombre = valorCanonico.get('NOMBRE');
+				if (parseInt(content)) {
+
+					var valorCanonico = window.collections.sistemas.get(content);
+					nombre = valorCanonico.get('NOMBRE');
+
+				}
 
 			} else if (field == "ID_VALOR_CANONICO") {
 
-				var valorCanonico = window.collections.valoresCanonicos.get(content);
-				nombre = valorCanonico.get('VALOR_CANONICO');
+				if (parseInt(content)) {	
+
+					var valorCanonico = window.collections.valoresCanonicos.get(content);
+					nombre = valorCanonico.get('VALOR_CANONICO');
+
+				}
 
 			} 
 
@@ -75,8 +88,8 @@ EnvMan.Views.ValorSistemaImportar = Backbone.View.extend({
 			var arrayData = [];
 			for (var index in lista) {
 				if (_.findIndex(job.registros.sistema, lista[index]) < 0 &&
-								lista[index].ID_SISTEMA == sistema &&
-								lista[index].ID_ENTIDAD_CANONICA == entidad)
+								(lista[index].ID_SISTEMA == sistema || sistema == '*') &&
+								(lista[index].ID_ENTIDAD_CANONICA == entidad || entidad == '*'))
 					arrayData.push(lista[index]);
 			}
 
@@ -94,8 +107,8 @@ EnvMan.Views.ValorSistemaImportar = Backbone.View.extend({
 
 		this.$el.find('#ambiente').val(window.job.target);
 
-		window.generales.cargarComboSistemas(this.$el.find('#id-sistema'), window.job.target);
-		window.generales.cargarComboEntidades(this.$el.find('#id-entidad'), window.job.target);
+		window.generales.cargarComboSistemas(this.$el.find('#id-sistema'), window.job.target, '*');
+		window.generales.cargarComboEntidades(this.$el.find('#id-entidad'), window.job.target, '*');
 
 		if (window.job.target != 'DESA')
 				this.$el.find('#ambiente').attr('disabled', 'disabled');

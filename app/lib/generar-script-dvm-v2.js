@@ -3,6 +3,7 @@ var fs = require('fs');
 var _ = require('underscore');
 var swig = require('swig');
 
+var ambientes = JSON.parse(fs.readFileSync(__dirname + '/../cfg/ambientes.json').toString('utf8'));
 var scriptDespliegueTemplate = fs.readFileSync(__dirname + '/../cfg/templates/general-body-script-despliegue.sql').toString();
 
 var templateInsert = fs.readFileSync(__dirname + '/../cfg/templates/general-insert-script-despliegue.sql').toString();
@@ -205,7 +206,7 @@ function generarRollback(tabla, registro) {
 
 }
 
-function generarScript(nroJob) {
+function generarScript(nroJob, dc) {
 
 	var script = "";
 
@@ -213,7 +214,8 @@ function generarScript(nroJob) {
 
 	if (_.isObject(nroJob)) {
 
-		job.registros = nroJob;
+		job.target = nroJob.target;
+		job.registros = nroJob.registros;
 
 	} else {
 
@@ -224,6 +226,8 @@ function generarScript(nroJob) {
 	job = normalizarNombreTablas(job);
 
 	tablas = job.registros;
+	var indexDC = _.findIndex(ambientes[job.target], { nombre : dc });
+	DATOS.DB_NAME = ambientes[job.target][indexDC].db_name;
 
 
 	if (job) {
