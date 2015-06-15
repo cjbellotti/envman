@@ -1,34 +1,42 @@
-var obtenerDatos = require('../lib/obtener-datos')(__dirname + '/data/DTVLA.DVM_SISTEMA_MRIBS.json');
+var request = require('sync-request');
 
+var env = "DESA";
+var dc = "DESA";
 function initialize (connectionData) {
 
 	var functions = {};
 
 	functions.create = function (contentData) {
 	 
-	 	return obtenerDatos.create(contentData);
+	 	return {};
 
 	}
 
 	functions.read = function (query) {
 
-		return obtenerDatos.read(query);
+    if (query != undefined)
+      query = query.ID;
+    else
+      query = '';
+
+	 	return JSON.parse(request('GET', 'http://localhost:5000/sistema/' + env + '/' + dc + '/' + query).body.toString('utf8'));
+
 	}
 
 	functions.update = function (query, contentData) {
 
-		return obtenerDatos.update(query, contentData);
+		return {};
 
 	}
 
 	functions.delete = function(query) {
 
-		return obtenerDatos.delete(query);
+		return {};
 
 	}
 
 	functions.lastId = function() {
-		return obtenerDatos.lastId();
+		return request('GET', 'http://localhost:5000/sistema/' + env + '/' + dc + '/lastid').ID;
 	}
 
 	return functions;

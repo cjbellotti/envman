@@ -29,7 +29,10 @@ EnvMan.Views.ValorSistemaImportar = Backbone.View.extend({
 				if (parseInt(content)) {
 
 					var entidad = window.collections.entidades.get(content);
-					nombre = entidad.get('NOMBRE');
+          if (entidad)
+  					nombre = entidad.get('NOMBRE');
+          else
+            nombre = content;
 
 				}
 
@@ -39,7 +42,10 @@ EnvMan.Views.ValorSistemaImportar = Backbone.View.extend({
 				if (parseInt(content)) {
 
 					var valorCanonico = window.collections.sistemas.get(content);
-					nombre = valorCanonico.get('NOMBRE');
+          if (valorCanonico)
+  					nombre = valorCanonico.get('NOMBRE');
+          else
+            nombre = content;
 
 				}
 
@@ -48,7 +54,10 @@ EnvMan.Views.ValorSistemaImportar = Backbone.View.extend({
 				if (parseInt(content)) {	
 
 					var valorCanonico = window.collections.valoresCanonicos.get(content);
-					nombre = valorCanonico.get('VALOR_CANONICO');
+          if (valorCanonico)
+  					nombre = valorCanonico.get('VALOR_CANONICO');
+          else
+            nombre = content;
 
 				}
 

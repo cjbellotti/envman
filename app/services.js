@@ -6,6 +6,8 @@ var app = require('express')(),
 	generarScript = require('./lib/generar-script-dvm-v3'),
 	getConfig = require('./lib/get-config');
 
+var dataLayer = process.env.DATA_LAYER || '';
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(function (req, res, next) {
@@ -280,13 +282,13 @@ function definirServicioJob () {
 
 }
 
-fs.readdir(__dirname + '/tables', function (err, files) {
+fs.readdir(__dirname + '/tables/' + dataLayer, function (err, files) {
 
 	if (err) throw err;
 
 	files.forEach(function (file) {
 		if(file.indexOf('.js') > 0 && file.indexOf('job') < 0)
-			definirServicio(__dirname + '/tables/' + file);
+			definirServicio(__dirname + '/tables/' + dataLayer + '/' +  file);
 	});
 
 	definirServicioJob();

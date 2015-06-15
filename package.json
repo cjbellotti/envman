@@ -10,6 +10,7 @@
     "supertest": "^0.15.0",
     "supertest-as-promised": "^2.0.0",
     "swig": "^1.4.2",
+    "sync-request": "^2.0.1",
     "underscore": "^1.8.2"
   },
   "devDependencies": {},
