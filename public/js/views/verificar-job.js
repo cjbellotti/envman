@@ -59,7 +59,33 @@ EnvMan.Views.VerificarJob = Backbone.View.extend({
 
 		// Solo cargo en la tabla los sistemas que NO se encuentren en el Job.
 
+
+	/*	espera.$el.modal({
+
+			backdrop : 'static',
+			keyboard : false
+
+		});*/
+
 		var self = this;
+
+		var espera = new EnvMan.Views.Espera({
+
+				onclose : function () {
+
+					self.$el.html(self.template());
+					self.$el.find('.table-content').append(self.table);
+
+					self.$el.on('hidden.bs.modal', function () {
+						self.$el.remove();
+					});
+
+				}
+		});
+		espera.render();
+		$('#modals').append(espera.el);
+		espera.show();
+
 		window.generales.limpiarRegistros(window.job.registros);
 		$.ajax({
 			method : 'POST',
@@ -97,16 +123,13 @@ EnvMan.Views.VerificarJob = Backbone.View.extend({
 
 					self.table.setArrayData(arrayData);
 
+					//espera.$el.modal('hide');
+					//
+					espera.hide();
+					
 			}
 		});
 
-		this.$el.html(this.template());
-		this.$el.find('.table-content').append(this.table);
-
-		var self = this;
-		this.$el.on('hidden.bs.modal', function () {
-			self.$el.remove();
-		});
 
 	}
 

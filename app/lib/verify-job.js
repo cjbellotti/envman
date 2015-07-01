@@ -8,6 +8,10 @@ var tables = {};
 var incrementoID = 0;
 var verificaciones = [];
 
+var EntidadCanonica = require('../tables/entidad-canonica');
+var Sistema = require('../tables/sistema');
+var ValorCanonico = require('../tables/valor-canonico');
+var ValorSistema = require('../tables/valor-sistema');
 for (var key in ambientes) {
 
 	tables[key] = {};
@@ -15,10 +19,10 @@ for (var key in ambientes) {
 
 			var dc = ambientes[key][indexdc];
 			tables[key][dc.nombre] = {};
-			tables[key][dc.nombre].entidadcanonica = require('../tables/entidad-canonica')(dc);
-			tables[key][dc.nombre].sistema = require('../tables/sistema')(dc);
-			tables[key][dc.nombre].valorcanonico = require('../tables/valor-canonico')(dc);
-			tables[key][dc.nombre].valorsistema = require('../tables/valor-sistema')(dc);
+			tables[key][dc.nombre].entidadcanonica = new EntidadCanonica(dc);
+			tables[key][dc.nombre].sistema = new Sistema(dc);
+			tables[key][dc.nombre].valorcanonico = new ValorCanonico(dc);
+			tables[key][dc.nombre].valorsistema = new ValorSistema(dc);
 
 	}
 

@@ -29,10 +29,10 @@ EnvMan.Views.ValorSistemaImportar = Backbone.View.extend({
 				if (parseInt(content)) {
 
 					var entidad = window.collections.entidades.get(content);
-          if (entidad)
-  					nombre = entidad.get('NOMBRE');
-          else
-            nombre = content;
+				  	if (entidad)
+						nombre = entidad.get('NOMBRE');
+				  	else
+						nombre = content;
 
 				}
 
@@ -42,10 +42,10 @@ EnvMan.Views.ValorSistemaImportar = Backbone.View.extend({
 				if (parseInt(content)) {
 
 					var valorCanonico = window.collections.sistemas.get(content);
-          if (valorCanonico)
-  					nombre = valorCanonico.get('NOMBRE');
-          else
-            nombre = content;
+				  	if (valorCanonico)
+						nombre = valorCanonico.get('NOMBRE');
+				  	else
+						nombre = content;
 
 				}
 
@@ -54,10 +54,10 @@ EnvMan.Views.ValorSistemaImportar = Backbone.View.extend({
 				if (parseInt(content)) {	
 
 					var valorCanonico = window.collections.valoresCanonicos.get(content);
-          if (valorCanonico)
-  					nombre = valorCanonico.get('VALOR_CANONICO');
-          else
-            nombre = content;
+				  	if (valorCanonico)
+						nombre = valorCanonico.get('VALOR_CANONICO');
+				  	else
+						nombre = content;
 
 				}
 
@@ -92,17 +92,32 @@ EnvMan.Views.ValorSistemaImportar = Backbone.View.extend({
 			var sistema = this.$el.find('#id-sistema').val();
 			var entidad = this.$el.find('#id-entidad').val();
 
-			var lista = window.generales.datos.valoresSistema(ambiente);
 
-			var arrayData = [];
-			for (var index in lista) {
-				if (_.findIndex(job.registros.sistema, lista[index]) < 0 &&
-								(lista[index].ID_SISTEMA == sistema || sistema == '*') &&
-								(lista[index].ID_ENTIDAD_CANONICA == entidad || entidad == '*'))
-					arrayData.push(lista[index]);
-			}
+			var self = this;
+			var espera = new EnvMan.Views.Espera({
 
-			this.table.setArrayData(arrayData);
+					onshow : function () {
+							var lista = window.generales.datos.valoresSistema(ambiente);
+
+							var arrayData = [];
+							for (var index in lista) {
+								if (_.findIndex(job.registros.sistema, lista[index]) < 0 &&
+												(lista[index].ID_SISTEMA == sistema || sistema == '*') &&
+												(lista[index].ID_ENTIDAD_CANONICA == entidad || entidad == '*'))
+									arrayData.push(lista[index]);
+							}
+
+							self.table.setArrayData(arrayData);
+							espera.hide();
+
+					},
+
+					onclose : function () {
+					}
+			});
+			$('#models').append(espera.el);
+			espera.render();
+			espera.show();
 			
 	},
 

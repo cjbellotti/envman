@@ -1,5 +1,5 @@
 var express = require('express');
-var services = require('./app/services');
+var services = require('./app/services-v2');
 
 var port = process.env.PORT || 3000;
 var app = express();

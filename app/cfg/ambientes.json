@@ -4,44 +4,52 @@
 		{ 
 			"nombre" : "DESA",
 			"db_name" : "esbdesa",
-			"url" : "hostdesa"
+			"url" : "hostdesa",
+			"datasource" : "LocalDTV"
 		}
 	],
 	"IST" : [
 		{
 			"nombre" : "IST",
 			"db_name" : "esbdb02",
-			"url" : "hostist"
+			"url" : "hostist",
+			"datasource" : "ISTDTV"
 		}
 	],
 	"UAT" : [
 		{
 			"nombre" : "UAT",
 			"db_name" : "esbdb",
-			"url" : "hostuat"
+			"url" : "hostuat",
+			"datasource" : "UATDTV"
 		}
 	],
 	"QAM" : [
 		{
 			"nombre" : "QAM",
-			"url" : "hostqam"
+			"url" : "hostqam",
+			"datasource" : "QAMDTV"
 		}
 	],
 	"PROD" : [
 		{
 			"nombre" : "DC_AR",
 			"db_name" : "infradb",
-			"url" : "hostprodsync"
+			"url" : "hostprodsync",
+			"datasource" : "ARDTV"
+
 		},
 		{	
 			"nombre" : "DC_VE",
 			"db_name" : "infradb",
-			"url" : "hostprodasync"
+			"url" : "hostprodasync",
+			"datasource" : "VEDTV"
 		},
 		{
 			"nombre" : "DC_CO",
 			"db_name" : "infradb",
-			"url" : "hostprodcobro"
+			"url" : "hostprodcobro",
+			"datasource" : "CODTV"
 		}
 	]
 

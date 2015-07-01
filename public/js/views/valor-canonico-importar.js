@@ -26,7 +26,10 @@ EnvMan.Views.ValorCanonicoImportar = Backbone.View.extend({
 			if (field == "ID_ENTIDAD_CANONICA"){
 
 				var entidad = window.collections.entidades.get(content);
-				nombre = entidad.get('NOMBRE');
+				if (entidad)
+					nombre = entidad.get('NOMBRE');
+				else
+					nombre = content;
 
 			} 
 
@@ -54,19 +57,33 @@ EnvMan.Views.ValorCanonicoImportar = Backbone.View.extend({
 
 	cargarTabla : function (e) {
 
+			var lista;
 			var ambiente = this.$el.find('#ambiente').val();
 			var entidad = this.$el.find('#id-entidad').val();
 
-			var lista = window.generales.datos.valoresCanonicos(ambiente);
-			
-			var arrayData = [];
-			for (var index in lista) {
-				if ((_.findIndex(job.registros.sistema, lista[index]) < 0 &&
-								lista[index].ID_ENTIDAD_CANONICA == entidad) || entidad == '*')
-					arrayData.push(lista[index]);
-			}
+			var self = this;
+			var espera = new EnvMan.Views.Espera({
 
-			this.table.setArrayData(arrayData);
+					onshow : function () {
+							lista = window.generales.datos.valoresCanonicos(ambiente);
+							var arrayData = [];
+							for (var index in lista) {
+								if ((_.findIndex(job.registros.sistema, lista[index]) < 0 &&
+												lista[index].ID_ENTIDAD_CANONICA == entidad) || entidad == '*')
+									arrayData.push(lista[index]);
+							}
+
+							self.table.setArrayData(arrayData);
+							espera.hide();
+
+					},
+
+					onclose : function () {
+					}
+			});
+			$('#models').append(espera.el);
+			espera.render();
+			espera.show();
 			
 	},
 

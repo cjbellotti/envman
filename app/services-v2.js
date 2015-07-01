@@ -4,7 +4,8 @@ var app = require('express')(),
 	manageJob = require('./tables/job'),
 	verifyJob = require('./lib/verify-job'),
 	generarScript = require('./lib/generar-script-dvm-v3'),
-	getConfig = require('./lib/get-config');
+	getConfig = require('./lib/get-config'),
+	exclude = require('./lib/utils/exclude');
 
 var dataLayer = process.env.DATA_LAYER || '';
 
@@ -15,79 +16,86 @@ app.use(function (req, res, next) {
 	next();
 });
 
+var servicios = {};
+
 var ambientes = JSON.parse(fs.readFileSync('./app/cfg/ambientes.json'));
 
 function definirServicio (file) {
 
+	var filename = file.replace(/^.*[\\|\/]/, '');
+	var nombreServicio = filename.substring(0, filename.indexOf('.'));
+	console.log('Servicio %s', nombreServicio);
+
+	servicios[nombreServicio] = {};
+
 	var Servicio = require(file);
 	for (var ambiente in ambientes) {
 
-		var servicio = new Servicio(ambientes[ambiente][0]);
-		var filename = file.replace(/^.*[\\|\/]/, '');
-		var nombreServicio = filename.substring(0, filename.indexOf('.'));
-		console.log('Servicio %s', nombreServicio);
-
-		var url = '/' + nombreServicio + '/' + ambiente;
-
-		console.log('Publicando GET - %s...', url);
-		app.get(url + '/:ID?', function (req, res) {
-
-			if (!req.params.ID)
-				req.params = undefined;
-
-			var status = 200;
-			var ret = servicio.read(req.params);
-			if (ret == null) {
-				status = 404;
-				ret = {};
-			}
-			res.status(status)
-				.json(ret)
-				.end();
-
-		});
-
-		console.log('Publicando POST - %s...', url);
-		app.post(url, function (req, res) {
-			res.json(servicio.create(req.body))
-				.end();
-		});
-
-		console.log('Publicando PUT - %s...', url);
-		app.put(url + '/:ID', function (req, res) {
-
-			var status = 200;
-			ret = servicio.update(req.params, req.body);
-
-			if (!ret) {
-				status = 404;
-				ret = {}
-			}
-
-			res.json(ret)
-				.end();
-		});
-
-		console.log('Publicando DELETE - %s...', url);
-		app.delete(url + '/:ID', function (req, res) {
-
-			var status = 200;
-			var ret = servicio.delete(req.params);
-
-			if (!ret) {
-				status = 404;
-				ret = {};
-			}
-
-			res.status(status)
-				.json(ret)
-				.end();
-		});
-
-		console.log('Datasource del servicio: %s', servicio.dc);
-
+		servicios[nombreServicio][ambiente] = new Servicio(ambientes[ambiente][0]);
 
 	}
+
+	var url = '/' + nombreServicio + '/:ambiente';
+
+	console.log('Publicando GET - %s...', url);
+	app.get(url + '/:ID?', function (req, res) {
+
+		var serviceName = req.url.substring(req.url.indexOf('/') + 1, req.url.substring(1).indexOf('/') + 1);
+		var params = {};		
+		if (!req.params.ID)
+			params = undefined;
+		else
+			params = exclude(req.params, { exclude : { ambiente : "" } });
+
+		
+		var status = 200;
+		var ret = servicios[serviceName][req.params.ambiente].read(params);
+		if (ret == null) {
+			status = 404;
+			ret = {};
+		}
+		res.status(status)
+			.json(ret)
+			.end();
+
+	});
+
+	console.log('Publicando POST - %s...', url);
+	app.post(url, function (req, res) {
+		res.json(servicios[req.params.ambiente].create(req.body))
+			.end();
+	});
+
+	console.log('Publicando PUT - %s...', url);
+	app.put(url + '/:ID', function (req, res) {
+
+		var status = 200;
+		ret = servicios[req.params.ambiente].update(req.params, req.body);
+
+		if (!ret) {
+			status = 404;
+			ret = {}
+		}
+
+		res.json(ret)
+			.end();
+	});
+
+	console.log('Publicando DELETE - %s...', url);
+	app.delete(url + '/:ID', function (req, res) {
+
+		var status = 200;
+		var ret = servicios[req.params.ambiente].delete(req.params);
+
+		if (!ret) {
+			status = 404;
+			ret = {};
+		}
+
+		res.status(status)
+			.json(ret)
+			.end();
+	});
 
 }
 

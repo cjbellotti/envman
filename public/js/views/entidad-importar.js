@@ -40,7 +40,12 @@ EnvMan.Views.EntidadImportar = Backbone.View.extend({
 
 			var ambiente = this.$el.find('#ambiente').val();
 
+			var espera = new EnvMan.Views.Espera();
+			$('#modals').append(espera.el);
+			espera.render();
+			espera.show();
 			var lista = window.generales.datos.entidades(ambiente);
+			espera.hide();
 
 			var arrayData = [];
 			for (var index in lista) {

@@ -44,7 +44,10 @@ EnvMan.Views.Job = Backbone.View.extend({
 		var self = this;
 		$.post('/verificar/' + window.job.job, function (data) {
 
-				for (var tabla in data) {
+				var dc;
+				for (dc in data);
+				
+				for (var tabla in data[0]) {
 
 					var Model = null;
 					var collection = null;

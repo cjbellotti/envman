@@ -1,45 +1,45 @@
 var request = require('sync-request');
+var generarWhere = require('./generar-where');
+var _ = require('underscore');
 
-var env = "DESA";
-var dc = "DESA";
 function initialize (connectionData) {
 
-	var functions = {};
 
-	functions.create = function (contentData) {
-	 
+	this.dc = _.clone(connectionData.datasource);
+
+	this.create = function (contentData) {
+
 	 	return {}; 
 
 	}
 
-	functions.read = function (query) {
+	this.read = function (query) {
 
-    if (query != undefined)
-      query = query.ID;
-    else
-      query = '';
+		query = generarWhere(query);
 
-	 	return JSON.parse(request('GET', 'http://localhost:5000/entidad-canonica/' + env + '/' + dc + '/' + query).body.toString('utf8'));
+		var response = request('GET', 'http://localhost:8080/envman-datalayer/datalayer/' + this.dc + '/DTVLA.DVM_ENTIDAD_CANONICA/' + query).body.toString('utf8');
+		var ret = JSON.parse(response);
+		if (_.isEmpty(ret))
+				ret = null;
+	 	return ret; 
 
 	}
 
-	functions.update = function (query, contentData) {
+	this.update = function (query, contentData) {
 
 		return {};
 
 	}
 
-	functions.delete = function(query) {
+	this.delete = function(query) {
 
 		return {};
 
 	}
 
-	functions.lastId = function() {
-		return request('GET', 'http://localhost:5000/entidad-canonica/' + env + '/' + dc + '/lastid').ID;
+	this.lastId = function() {
+		return request('GET', 'http://localhost:8080/envman-datalayer/datalayer/' + this.dc + '/DTVLA.DVM_ENTIDAD_CANONICA/lastid').ID;
 	}
-
-	return functions;
 
 }
 
